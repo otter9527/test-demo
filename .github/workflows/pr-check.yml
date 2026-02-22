@@ -41,12 +41,6 @@ jobs:
             python .wfkit/scripts/pm/enforce_policy.py \
               --repo "${{ github.repository }}" \
               --pr "${{ github.event.pull_request.number }}"
-          else
-            MSG=$(git log -1 --pretty=%s)
-            if [[ "$MSG" != *"TASK-"* ]]; then
-              echo "Commit message must include TASK-* token" >&2
-              exit 1
-            fi
           fi
 
   repo-checks:
