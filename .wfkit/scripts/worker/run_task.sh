@@ -134,7 +134,7 @@ if [[ "$CURRENT_BRANCH" != "$BRANCH" ]]; then
   git checkout -B "$BRANCH" "origin/${BASE_BRANCH}"
 fi
 
-AI_RESULT="$(python3 scripts/worker/ai_adapter.py --mode "$AI_MODE" --task-id "$TASK_ID" --task-type "$TASK_TYPE" --issue "$ISSUE" --summary "$ISSUE_TITLE")"
+AI_RESULT="$(python3 .wfkit/scripts/worker/ai_adapter.py --mode "$AI_MODE" --task-id "$TASK_ID" --task-type "$TASK_TYPE" --issue "$ISSUE" --summary "$ISSUE_TITLE")"
 export AI_RESULT
 AI_NOTE="$(python3 - <<'PY'
 import json
@@ -143,10 +143,10 @@ print(json.loads(os.environ["AI_RESULT"]).get("note", ""))
 PY
 )"
 
-if [[ -x "$ROOT/scripts/ci/run_local_checks.sh" ]]; then
-  bash "$ROOT/scripts/ci/run_local_checks.sh"
+if [[ -x "$ROOT/.wfkit/scripts/ci/run_local_checks.sh" ]]; then
+  bash "$ROOT/.wfkit/scripts/ci/run_local_checks.sh"
 else
-  echo "No local checks script found at scripts/ci/run_local_checks.sh; skipping."
+  echo "No local checks script found at .wfkit/scripts/ci/run_local_checks.sh; skipping."
 fi
 
 git config user.name "$WORKER"
@@ -169,7 +169,7 @@ PR_BODY=$(cat <<PRBODY
 Closes #${ISSUE}
 
 ## Checks
-- [x] \`bash scripts/ci/run_local_checks.sh\`
+- [x] \`bash .wfkit/scripts/ci/run_local_checks.sh\`
 
 ## AI
 - mode: ${AI_MODE}

@@ -1,22 +1,23 @@
-# test-demo-project
+# regen-test-demo-thin
 
-Production-ready GitHub workflow-control project generated from `workflow-control-kit`.
+Low-intrusion GitHub workflow-control project generated from `workflow-control-kit`.
 
 ## Initial Requirement
-- Implement issue->pr->review->merge workflow
+- Low-intrusion workflow control
 
 ## What This Repository Provides
 - strict branch protection and required checks on `main`
 - structured issue -> dispatch -> PR -> merge -> post-merge progression
 - role-based scripts for distributed teams (Owner/PM/Worker/Reviewer/Release)
 - GitHub-driven coordination (no shared filesystem required)
+- workflow internals are isolated under `.wfkit/` to avoid mixing with business code
 
 ## Role Entry Points
-All role scripts are under `scripts/roles/`.
+All role scripts are under `.wfkit/scripts/roles/`.
 
 ### Shared setup (every machine)
 ```bash
-bash scripts/roles/shared/00_prepare_workspace.sh \
+bash .wfkit/scripts/roles/shared/00_prepare_workspace.sh \
   --repo <owner/name> \
   --workspace-root "$HOME/ai-factory-workspaces" \
   --branch main \
@@ -25,7 +26,7 @@ bash scripts/roles/shared/00_prepare_workspace.sh \
 
 ### Owner/Admin
 ```bash
-bash scripts/roles/owner/01_setup_repo.sh \
+bash .wfkit/scripts/roles/owner/01_setup_repo.sh \
   --repo <owner/name> \
   --visibility private \
   --default-branch main \
@@ -34,7 +35,7 @@ bash scripts/roles/owner/01_setup_repo.sh \
 
 ### PM
 ```bash
-bash scripts/roles/pm/02_create_task.sh \
+bash .wfkit/scripts/roles/pm/02_create_task.sh \
   --repo <owner/name> \
   --task-id TASK-001 \
   --task-type IMPL \
@@ -43,13 +44,13 @@ bash scripts/roles/pm/02_create_task.sh \
 ```
 
 ```bash
-bash scripts/roles/pm/03_dispatch.sh --repo <owner/name> --event manual_dispatch --assign-self false
+bash .wfkit/scripts/roles/pm/03_dispatch.sh --repo <owner/name> --event manual_dispatch --assign-self false
 ```
 
 ### Worker
 Apply code changes locally first, then submit:
 ```bash
-bash scripts/roles/worker/04_run_task.sh \
+bash .wfkit/scripts/roles/worker/04_run_task.sh \
   --repo <owner/name> \
   --issue <issue_number> \
   --worker worker-a \
@@ -58,7 +59,7 @@ bash scripts/roles/worker/04_run_task.sh \
 
 ### Reviewer
 ```bash
-bash scripts/roles/reviewer/05_merge_pr.sh \
+bash .wfkit/scripts/roles/reviewer/05_merge_pr.sh \
   --repo <owner/name> \
   --pr <pr_number> \
   --merge-method squash \
@@ -67,16 +68,16 @@ bash scripts/roles/reviewer/05_merge_pr.sh \
 
 ### Release/QA
 ```bash
-bash scripts/roles/release/07_collect_report.sh --repo <owner/name>
+bash .wfkit/scripts/roles/release/07_collect_report.sh --repo <owner/name>
 ```
 
 ## Repository Checks
-- baseline checks run in `scripts/ci/run_repo_checks.sh`
+- baseline checks run in `.wfkit/scripts/ci/run_repo_checks.sh`
 - add project-specific checks by copying:
-  `scripts/ci/project_checks.sh.example -> scripts/ci/project_checks.sh`
+  `.wfkit/scripts/ci/project_checks.sh.example -> .wfkit/scripts/ci/project_checks.sh`
 
 ## Notes
-- Detailed flow: `docs/ROLE-WORKFLOW.md`
-- Execution runbook: `docs/WORKFLOW-RUNBOOK.md`
+- Detailed flow: `.wfkit/docs/ROLE-WORKFLOW.md`
+- Execution runbook: `.wfkit/docs/WORKFLOW-RUNBOOK.md`
 - AI mode options: `mock|real|codex`
 - Optional env for Codex CLI: `CODEX_MODEL`

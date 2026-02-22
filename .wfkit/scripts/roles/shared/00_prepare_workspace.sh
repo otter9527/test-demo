@@ -38,8 +38,8 @@ else
   git -C "$TARGET" checkout "$BRANCH"
 fi
 
-if [[ "$INSTALL_DEPS" == "true" && -f "${TARGET}/requirements.txt" ]]; then
-  python3 -m pip install -q -r "${TARGET}/requirements.txt"
+if [[ "$INSTALL_DEPS" == "true" && -f "${TARGET}/.wfkit/requirements.txt" ]]; then
+  python3 -m pip install -q -r "${TARGET}/.wfkit/requirements.txt"
 fi
 
 HEAD_SHA="$(git -C "$TARGET" rev-parse HEAD)"

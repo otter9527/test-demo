@@ -7,4 +7,4 @@ if [[ -z "$ROOT" ]]; then
   exit 1
 fi
 
-exec "$ROOT/scripts/worker/run_task.sh" "$@"
+exec "$ROOT/.wfkit/scripts/worker/run_task.sh" "$@"

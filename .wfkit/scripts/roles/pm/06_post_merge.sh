@@ -26,4 +26,4 @@ if [[ -z "$ROOT" ]]; then
 fi
 cd "$ROOT"
 
-python3 scripts/pm/on_pr_merged.py --repo "$REPO" --pr "$PR" --run-id "$RUN_ID"
+python3 .wfkit/scripts/pm/on_pr_merged.py --repo "$REPO" --pr "$PR" --run-id "$RUN_ID"

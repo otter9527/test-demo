@@ -2,6 +2,6 @@
 __pycache__/
 *.pyc
 .env
-state/runs/*
-!state/runs/.gitkeep
-reports/
+.wfkit/state/runs/*
+!.wfkit/state/runs/.gitkeep
+.wfkit/reports/

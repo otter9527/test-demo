@@ -27,7 +27,7 @@ fi
 
 if [[ -z "$OUTPUT" ]]; then
   TS="$(date +%Y%m%d-%H%M%S)"
-  OUTPUT="$ROOT/reports/release-report-${TS}.md"
+  OUTPUT="$ROOT/.wfkit/reports/release-report-${TS}.md"
 fi
 mkdir -p "$(dirname "$OUTPUT")"
 

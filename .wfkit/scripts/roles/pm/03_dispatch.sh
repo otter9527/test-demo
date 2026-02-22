@@ -33,9 +33,9 @@ if [[ -z "$ROOT" ]]; then
 fi
 cd "$ROOT"
 
-python3 scripts/pm/sync_state.py --repo "$REPO" --run-id "$RUN_ID" --event "$EVENT"
+python3 .wfkit/scripts/pm/sync_state.py --repo "$REPO" --run-id "$RUN_ID" --event "$EVENT"
 if [[ "$ASSIGN_SELF" == "true" ]]; then
-  python3 scripts/pm/dispatch_tasks.py --repo "$REPO" --run-id "$RUN_ID" --assign-self
+  python3 .wfkit/scripts/pm/dispatch_tasks.py --repo "$REPO" --run-id "$RUN_ID" --assign-self
 else
-  python3 scripts/pm/dispatch_tasks.py --repo "$REPO" --run-id "$RUN_ID"
+  python3 .wfkit/scripts/pm/dispatch_tasks.py --repo "$REPO" --run-id "$RUN_ID"
 fi

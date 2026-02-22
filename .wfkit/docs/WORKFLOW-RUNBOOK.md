@@ -10,7 +10,7 @@ Issue -> Dispatch -> Worker PR -> Review -> Merge -> Post-Merge -> Next Task。
 
 ## 2. 初始化阶段（Owner/Admin）
 ```bash
-bash scripts/roles/owner/01_setup_repo.sh \
+bash .wfkit/scripts/roles/owner/01_setup_repo.sh \
   --repo <owner/name> \
   --visibility private \
   --default-branch main \
@@ -19,7 +19,7 @@ bash scripts/roles/owner/01_setup_repo.sh \
 
 ## 3. 角色机器准备（所有角色各自执行）
 ```bash
-bash scripts/roles/shared/00_prepare_workspace.sh \
+bash .wfkit/scripts/roles/shared/00_prepare_workspace.sh \
   --repo <owner/name> \
   --workspace-root "$HOME/ai-factory-workspaces" \
   --branch main \
@@ -28,7 +28,7 @@ bash scripts/roles/shared/00_prepare_workspace.sh \
 
 ## 4. PM：创建任务与派发
 ```bash
-bash scripts/roles/pm/02_create_task.sh \
+bash .wfkit/scripts/roles/pm/02_create_task.sh \
   --repo <owner/name> \
   --task-id TASK-001 \
   --task-type IMPL \
@@ -37,7 +37,7 @@ bash scripts/roles/pm/02_create_task.sh \
 ```
 
 ```bash
-bash scripts/roles/pm/03_dispatch.sh \
+bash .wfkit/scripts/roles/pm/03_dispatch.sh \
   --repo <owner/name> \
   --event manual_dispatch \
   --assign-self false
@@ -45,14 +45,14 @@ bash scripts/roles/pm/03_dispatch.sh \
 
 ## 5. Worker：执行任务并提交 PR
 ```bash
-bash scripts/roles/worker/03_inbox.sh \
+bash .wfkit/scripts/roles/worker/03_inbox.sh \
   --repo <owner/name> \
   --worker worker-a \
   --status in_progress
 ```
 
 ```bash
-bash scripts/roles/worker/04_run_task.sh \
+bash .wfkit/scripts/roles/worker/04_run_task.sh \
   --repo <owner/name> \
   --issue <issue_number> \
   --worker worker-a \
@@ -61,11 +61,11 @@ bash scripts/roles/worker/04_run_task.sh \
 
 ## 6. Reviewer：审查与合并
 ```bash
-bash scripts/roles/reviewer/04_queue.sh --repo <owner/name>
+bash .wfkit/scripts/roles/reviewer/04_queue.sh --repo <owner/name>
 ```
 
 ```bash
-bash scripts/roles/reviewer/05_merge_pr.sh \
+bash .wfkit/scripts/roles/reviewer/05_merge_pr.sh \
   --repo <owner/name> \
   --pr <pr_number> \
   --merge-method squash \
@@ -75,14 +75,14 @@ bash scripts/roles/reviewer/05_merge_pr.sh \
 
 ## 7. PM：合并后推进
 ```bash
-bash scripts/roles/pm/06_post_merge.sh \
+bash .wfkit/scripts/roles/pm/06_post_merge.sh \
   --repo <owner/name> \
   --pr <pr_number>
 ```
 
 ## 8. 发布快照（Release/QA）
 ```bash
-bash scripts/roles/release/07_collect_report.sh \
+bash .wfkit/scripts/roles/release/07_collect_report.sh \
   --repo <owner/name>
 ```
 
@@ -96,5 +96,5 @@ bash scripts/roles/release/07_collect_report.sh \
 ## 10. 注意事项
 1. 不允许直推 `main`。
 2. PR 必须包含 `Closes #<issue>`。
-3. 项目检查入口为 `scripts/ci/run_repo_checks.sh`。
-4. 项目可在 `scripts/ci/project_checks.sh` 中添加自定义检查。
+3. 项目检查入口为 `.wfkit/scripts/ci/run_repo_checks.sh`。
+4. 项目可在 `.wfkit/scripts/ci/project_checks.sh` 中添加自定义检查。

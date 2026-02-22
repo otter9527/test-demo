@@ -5,4 +5,4 @@
 Closes #<issue_number>
 
 ## Checks
-- [ ] `bash scripts/ci/run_local_checks.sh`
+- [ ] `bash .wfkit/scripts/ci/run_local_checks.sh`

@@ -3,8 +3,9 @@ set -euo pipefail
 
 ROOT="$(git rev-parse --show-toplevel 2>/dev/null || true)"
 if [[ -z "$ROOT" ]]; then
-  echo "Run inside generated project root" >&2
+  echo "run_local_checks.sh must run inside a git repository" >&2
   exit 1
 fi
+cd "$ROOT"
 
-exec python3 "$ROOT/scripts/pm/create_task.py" "$@"
+exec "$ROOT/.wfkit/scripts/ci/run_repo_checks.sh"

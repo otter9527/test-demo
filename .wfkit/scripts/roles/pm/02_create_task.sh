@@ -7,4 +7,4 @@ if [[ -z "$ROOT" ]]; then
   exit 1
 fi
 
-exec "$ROOT/scripts/pm/bootstrap_repo.sh" "$@"
+exec python3 "$ROOT/.wfkit/scripts/pm/create_task.py" "$@"

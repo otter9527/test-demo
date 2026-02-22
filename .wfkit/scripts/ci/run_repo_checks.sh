@@ -14,9 +14,9 @@ if git grep -nE '^(<<<<<<< .+|=======$|>>>>>>> .+)$' -- . ':!*.lock' ':!*.svg'; 
   exit 1
 fi
 
-if [[ -x "$ROOT/scripts/ci/project_checks.sh" ]]; then
-  echo "[repo-checks] running project-specific checks: scripts/ci/project_checks.sh"
-  "$ROOT/scripts/ci/project_checks.sh"
+if [[ -x "$ROOT/.wfkit/scripts/ci/project_checks.sh" ]]; then
+  echo "[repo-checks] running project-specific checks: .wfkit/scripts/ci/project_checks.sh"
+  "$ROOT/.wfkit/scripts/ci/project_checks.sh"
 else
   echo "[repo-checks] no project-specific checks found, baseline checks only"
 fi

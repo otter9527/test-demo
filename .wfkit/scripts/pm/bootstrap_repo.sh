@@ -63,7 +63,7 @@ REQUIRED_CHECKS_JSON="$(python3 - <<'PY'
 import json
 from pathlib import Path
 
-path = Path("config/policy.yaml")
+path = Path(".wfkit/config/policy.yaml")
 default = ["policy-check", "repo-checks"]
 if not path.exists():
     print(json.dumps(default))

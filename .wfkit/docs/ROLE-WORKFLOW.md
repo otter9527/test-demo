@@ -14,7 +14,7 @@ No shared filesystem is required; only GitHub repo/issue/PR/workflow is shared.
 ## Step-by-Step
 0. Each role prepares local workspace independently.
 ```bash
-bash scripts/roles/shared/00_prepare_workspace.sh \
+bash .wfkit/scripts/roles/shared/00_prepare_workspace.sh \
   --repo <owner/name> \
   --workspace-root "$HOME/ai-factory-workspaces" \
   --branch main \
@@ -23,7 +23,7 @@ bash scripts/roles/shared/00_prepare_workspace.sh \
 
 1. `A` initialize repository and gatekeeping.
 ```bash
-bash scripts/roles/owner/01_setup_repo.sh \
+bash .wfkit/scripts/roles/owner/01_setup_repo.sh \
   --repo <owner/name> \
   --visibility public \
   --default-branch main \
@@ -32,14 +32,14 @@ bash scripts/roles/owner/01_setup_repo.sh \
 
 2. `B` create one or more structured task issues.
 ```bash
-bash scripts/roles/pm/02_create_task.sh \
+bash .wfkit/scripts/roles/pm/02_create_task.sh \
   --repo <owner/name> \
   --task-id TASK-001 \
   --task-type IMPL \
   --title "Task 001: <title>" \
   --acceptance "definition of done"
 
-bash scripts/roles/pm/02_create_task.sh \
+bash .wfkit/scripts/roles/pm/02_create_task.sh \
   --repo <owner/name> \
   --task-id TASK-002 \
   --task-type IMPL \
@@ -50,17 +50,17 @@ bash scripts/roles/pm/02_create_task.sh \
 
 3. `B` run dispatch to assign ready tasks.
 ```bash
-bash scripts/roles/pm/03_dispatch.sh --repo <owner/name> --event manual_dispatch --assign-self false
+bash .wfkit/scripts/roles/pm/03_dispatch.sh --repo <owner/name> --event manual_dispatch --assign-self false
 ```
 
 4. `C` check inbox and execute assigned issue.
 ```bash
-bash scripts/roles/worker/03_inbox.sh --repo <owner/name> --worker worker-a --status in_progress
+bash .wfkit/scripts/roles/worker/03_inbox.sh --repo <owner/name> --worker worker-a --status in_progress
 ```
 
 Worker applies code changes locally first, then submits with unified checks + PR flow:
 ```bash
-bash scripts/roles/worker/04_run_task.sh \
+bash .wfkit/scripts/roles/worker/04_run_task.sh \
   --repo <owner/name> \
   --issue <issue_number> \
   --worker worker-a \
@@ -69,11 +69,11 @@ bash scripts/roles/worker/04_run_task.sh \
 
 5. `D` check review queue and merge PR only after checks are green.
 ```bash
-bash scripts/roles/reviewer/04_queue.sh --repo <owner/name>
+bash .wfkit/scripts/roles/reviewer/04_queue.sh --repo <owner/name>
 ```
 
 ```bash
-bash scripts/roles/reviewer/05_merge_pr.sh \
+bash .wfkit/scripts/roles/reviewer/05_merge_pr.sh \
   --repo <owner/name> \
   --pr <pr_number> \
   --merge-method squash \
@@ -83,14 +83,14 @@ bash scripts/roles/reviewer/05_merge_pr.sh \
 
 6. `B` run post-merge progression (close issue, unlock downstream, redispatch).
 ```bash
-bash scripts/roles/pm/06_post_merge.sh --repo <owner/name> --pr <pr_number>
+bash .wfkit/scripts/roles/pm/06_post_merge.sh --repo <owner/name> --pr <pr_number>
 ```
 
 7. Repeat steps 3-6 until task chain completes.
 
 8. `E` generate release/operation snapshot report.
 ```bash
-bash scripts/roles/release/07_collect_report.sh --repo <owner/name>
+bash .wfkit/scripts/roles/release/07_collect_report.sh --repo <owner/name>
 ```
 
 ## Parameter Notes
@@ -102,14 +102,14 @@ bash scripts/roles/release/07_collect_report.sh --repo <owner/name>
 - `--assign-self`: in distributed mode usually `false` to avoid PM node as assignee.
 
 ## CI and Checks
-- Required checks are configured in `config/policy.yaml`.
+- Required checks are configured in `.wfkit/config/policy.yaml`.
 - Default required checks:
   - `policy-check`
   - `repo-checks`
 - Baseline check entry:
-  - `scripts/ci/run_repo_checks.sh`
+  - `.wfkit/scripts/ci/run_repo_checks.sh`
 - Project-specific checks:
-  - copy `scripts/ci/project_checks.sh.example` to `scripts/ci/project_checks.sh`.
+  - copy `.wfkit/scripts/ci/project_checks.sh.example` to `.wfkit/scripts/ci/project_checks.sh`.
 
 ## Handoff Contract (GitHub-Only)
 - `PM -> Worker`: issue number (`#N`) + expected worker id.
