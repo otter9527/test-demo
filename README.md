@@ -84,3 +84,5 @@ bash .wfkit/scripts/roles/release/07_collect_report.sh --repo <owner/name>
 
 - thin-flow-marker-A (2026-02-22T04:11:51Z)
 
+
+- thin-flow-marker-B (2026-02-22T04:15:44Z)
