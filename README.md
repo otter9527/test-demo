@@ -81,3 +81,5 @@ bash .wfkit/scripts/roles/release/07_collect_report.sh --repo <owner/name>
 - Execution runbook: `.wfkit/docs/WORKFLOW-RUNBOOK.md`
 - AI mode options: `mock|real|codex`
 - Optional env for Codex CLI: `CODEX_MODEL`
+
+- thin-flow-marker-A (2026-02-22T04:11:51Z)
